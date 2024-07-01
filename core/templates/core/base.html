@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Mechanic Mayhem</title>
+    <meta
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+      name="viewport"
+    />
+    <link
+      rel="icon"
+      href="{% static 'core/img/Logo_Pagina.png' %}"
+      type="image/x-icon"
+    />
+    
+    <!-- Fonts and icons -->
+    <script src="{% static 'core/js/plugin/webfont/webfont.min.js' %}"></script>
+    <script>
+      WebFont.load({
+        google: { families: ["Public Sans:300,400,500,600,700"] },
+        custom: {
+          families: [
+            "Font Awesome 5 Solid",
+            "Font Awesome 5 Regular",
+            "Font Awesome 5 Brands",
+            "simple-line-icons",
+          ],
+          urls: ["{% static 'core/css/fonts.min.css' %}"],
+        },
+        active: function () {
+          sessionStorage.fonts = true;
+        },
+      });
+    </script>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="{% static 'core/css/bootstrap.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'core/css/plugins.min.css' %}" />
+    <link rel="stylesheet" href="{% static 'core/css/kaiadmin.min.css' %}" />
+ </head>
+  <body>
+    <style>
+    footer {
+        background-color: #021730;
+        color: white;
+        padding: 20px 0;
+        margin-top: auto; /* Ancla el footer en la parte inferior */
+        width: 100%; /* Asegura que ocupe todo el ancho */
+        position: relative; /* Asegura que el contenido no se superponga */
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .footer_part {
+        padding: 20px 0; /* Ajusta el padding del footer interno */
+    }
+    </style>
+    <div class="wrapper">
+      <!-- Sidebar -->
+      <div class="sidebar" data-background-color="dark">
+        <div class="sidebar-logo">
+          <!-- Logo Header -->
+          <div class="logo-header" data-background-color="dark">
+            <a href="index.html" class="logo">
+              <img
+                src="{% static 'core/img/Taller_logo.png' %}"
+                alt="navbar brand"
+                class="navbar-brand"
+                height="65"
+                style="display: block; margin-left: 20px; margin-right: 20px;"
+              />
+            </a>
+            <div class="nav-toggle">
+              <button class="btn btn-toggle toggle-sidebar">
+                <i class="gg-menu-right"></i>
+              </button>
+              <button class="btn btn-toggle sidenav-toggler">
+                <i class="gg-menu-left"></i>
+              </button>
+            </div>
+            <button class="topbar-toggler more">
+              <i class="gg-more-vertical-alt"></i>
+            </button>
+          </div>
+          <!-- End Logo Header -->
+        </div>
+        <div class="sidebar-wrapper scrollbar scrollbar-inner">
+          <div class="sidebar-content">
+            <ul class="nav nav-secondary">
+                <li class="nav-item">
+                    <a data-bs-toggle="" href="{% url 'index' %}">
+                      <i class="fas fa-home"></i>
+                      <p>Inicio</p>
+                    </a>
+                  </li>
+              <li class="nav-section">
+                <span class="sidebar-mini-icon">
+                  <i class="fa fa-ellipsis-h"></i>
+                </span>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#base">
+                  <i class="fas fa-layer-group"></i>
+                  <p>Categorias</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="base">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="components/avatars.html">
+                        <span class="sub-item">Nuestras Categorias</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="components/buttons.html">
+                        <span class="sub-item">Nuestros trabajos</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#sidebarLayouts">
+                  <i class="fas fa-th-list"></i>
+                  <p>Proyectos</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="sidebarLayouts">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="sidebar-style-2.html">
+                        <span class="sub-item">Agregar Proyectos</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="icon-menu.html">
+                        <span class="sub-item">Aceptar / Denegar</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="collapse" href="#tables">
+                  <i class="fas fa-table"></i>
+                  <p>Nuestros Mecanicos</p>
+                  <span class="caret"></span>
+                </a>
+                <div class="collapse" id="tables">
+                  <ul class="nav nav-collapse">
+                    <li>
+                      <a href="{% url 'empleados' %}">
+                        <span class="sub-item">Lista de Mecanicos</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="tables/datatables.html">
+                        <span class="sub-item">Lista de Mecanicos API</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="{% url 'empleadosadd' %}">
+                        <span class="sub-item">Agregar</span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="" href="#forms">
+                  <i class="fas fa-pen-square"></i>
+                  <p>Catalogo</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a data-bs-toggle="" href="#forms">
+                  <i class="fas fa-pen-square"></i>
+                  <p>Administración</p>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <!-- End Sidebar -->
+
+      <div class="main-panel">
+        <div class="main-header">
+          <div class="main-header-logo">
+            <!-- Logo Header -->
+            <div class="logo-header" data-background-color="dark">
+              <a href="index.html" class="logo">
+                <img
+                  src="{% static 'core/img/Pavel.png' %}"
+                  alt="navbar brand"
+                  class="navbar-brand"
+                  height="20"
+                />
+              </a>
+              <div class="nav-toggle">
+                <button class="btn btn-toggle toggle-sidebar">
+                  <i class="gg-menu-right"></i>
+                </button>
+                <button class="btn btn-toggle sidenav-toggler">
+                  <i class="gg-menu-left"></i>
+                </button>
+              </div>
+              <button class="topbar-toggler more">
+                <i class="gg-more-vertical-alt"></i>
+              </button>
+            </div>
+            <!-- End Logo Header -->
+          </div>
+          <!-- Navbar Header -->
+          <nav
+            class="navbar navbar-header navbar-header-transparent navbar-expand-lg border-bottom"
+          >
+            <div class="container-fluid">
+              <nav
+                class="navbar navbar-header-left navbar-expand-lg navbar-form nav-search p-0 d-none d-lg-flex"
+              >
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <button type="submit" class="btn btn-search pe-1">
+                      <i class="fa fa-search search-icon"></i>
+                    </button>
+                  </div>
+                  <input
+                    type="text"
+                    placeholder=""
+                    class="form-control"
+                  />
+                </div>
+              </nav>
+              
+              <ul class="navbar-nav topbar-nav ms-md-auto align-items-center">
+                <li
+                  class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
+                >
+                  <a
+                    class="nav-link dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    href="#"
+                    role="button"
+                    aria-expanded="false"
+                    aria-haspopup="true"
+                  >
+                    <i class="fa fa-search"></i>
+                  </a>
+                  <ul class="dropdown-menu dropdown-search animated fadeIn">
+                    <form class="navbar-left navbar-form nav-search">
+                      <div class="input-group">
+                        <input
+                          type="text"
+                          placeholder=""
+                          class="form-control"
+                        />
+                      </div>
+                    </form>
+                  </ul>
+                </li>
+                <li class="nav-item topbar-user dropdown hidden-caret">
+                  <a
+                    class="dropdown-toggle profile-pic"
+                    data-bs-toggle="dropdown"
+                    href="#"
+                    aria-expanded="false"
+                  >
+                    <div class="avatar-sm">
+                      <img
+                        src="{% static 'core/img/profile.jpg' %}"
+                        alt="..."
+                        class="avatar-img rounded-circle"
+                      />
+                    </div>
+                    <span class="profile-username">
+                      <span class="op-7">Nombre</span>
+                    </span>
+                  </a>
+                  <ul class="dropdown-menu dropdown-user animated fadeIn">
+                      </li>
+                      <li>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Iniciar Sesión</a>
+                        <a class="dropdown-item" href="#">Crear Cuenta</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Cerrar Sesión</a>
+                      </li>
+                    </div>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </nav>
+          <!-- End Navbar -->
+        <section>
+        <div class="">
+            {% block principal %}
+            {% endblock %}
+        </div>
+        <footer>            
+            <div class="footer_part">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <p>INFORMACIÓN DE CONTACTO:</p>
+                            <p>Números: 9 6425 9075 / 9 3624 6691 / 9 9894 0264</p>
+                            <p>Correo: mech.mayhem.w@gmail.com</p>
+                            <p>Instagram: @mech_mayhem_</p>
+                        </div>                        
+                    </div>
+                </div>
+            </div>
+          </footer>
+        </div>
+
+        
+      </div>
+
+    </div>
+    <!--   Core JS Files   -->
+    <script src="{% static 'core/js/core/jquery-3.7.1.min.js' %}"></script>
+    <script src="{% static 'core/js/core/popper.min.js' %}"></script>
+    <script src="{% static 'core/js/core/bootstrap.min.js' %}"></script>
+
+    <!-- jQuery Scrollbar -->
+    <script src="{% static 'core/js/plugin/jquery-scrollbar/jquery.scrollbar.min.js' %}"></script>
+
+    <!-- Chart JS -->
+    <script src="{% static 'core/js/plugin/chart.js/chart.min.js' %}"></script>
+
+    <!-- jQuery Sparkline -->
+    <script src="{% static 'core/js/plugin/jquery.sparkline/jquery.sparkline.min.js' %}"></script>
+
+    <!-- Chart Circle -->
+    <script src="{% static 'core/js/plugin/chart-circle/circles.min.js' %}"></script>
+
+    <!-- Datatables -->
+    <script src="{% static 'core/js/plugin/datatables/datatables.min.js' %}"></script>
+
+    <!-- jQuery Vector Maps -->
+    <script src="{% static 'core/js/plugin/jsvectormap/jsvectormap.min.js' %}"></script>
+    <script src="{% static 'core/js/plugin/jsvectormap/world.js' %}"></script>
+
+    <!-- Sweet Alert -->
+    <script src="{% static 'core/js/plugin/sweetalert/sweetalert.min.js' %}"></script>
+
+    <!-- Kaiadmin JS -->
+    <script src="{% static 'core/js/kaiadmin.min.js' %}"></script>
+
+
+    
+    
+  </body>
+</html>
