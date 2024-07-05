@@ -1,0 +1,6 @@
+django 
+django-admin-interface
+
+# pip install -r requeriments.txt
+
+
