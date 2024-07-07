@@ -44,3 +44,12 @@ class SubirProyecto(models.Model):
     
     def __str__(self):
         return "{} - {}".format(self.titulo, self.nombre_mecanico)
+
+class Productos(models.Model):
+    titulo = models.CharField(max_length=50)
+    descripcion = models.CharField(max_length=3000)
+    precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
+    
+    
+    def __str__(self):
+        return self.titulo

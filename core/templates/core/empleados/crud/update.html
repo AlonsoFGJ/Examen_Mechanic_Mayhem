@@ -1,0 +1,66 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block principal %}
+
+{% load crispy_forms_tags %}
+
+<style>
+    /* Resetear estilos que podrían interferir */
+    body, html {
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-container {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 20px;
+        background-color: #f9f9f9; /* Cambio el color de fondo para evitar bordes visibles */
+        box-shadow: 0 0 10px rgba(0,0,0,0.1); /* Sombra ligera para efecto de elevación */
+        margin-top: 50px; /* Equivalente a 3 saltos de línea (3 * 20px) */
+        margin-bottom: 20px; /* Equivalente a 3 saltos de línea (3 * 20px) */
+    }
+    h1 {
+        text-align: center;
+        margin-top: 0; /* Ajuste para eliminar el margen superior predeterminado */
+        padding-top: 10px; /* Espacio superior para separar del borde superior del contenedor */
+    }
+    form {
+        text-align: left; /* Alinear el formulario a la izquierda */
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px; /* Espacio superior adicional para separar del título */
+    }
+    table, th, td {
+        border: 1px solid #ccc;
+        padding: 8px;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    .form-container a.btn-success {
+    background-color: #F9CD16 !important;
+    border-color: #F9CD16 !important;
+    }
+   
+</style>
+
+<div class="form-container">
+    <h1>Modificar Empleado/a</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        <table>
+            {{ form | crispy }}
+        </table>
+        <input class="btn btn-danger" type="reset" value="Limpiar">
+        <input class="btn btn-success" type="submit" value="Modificar">
+        <a href="{% url 'empleados' %}" class="btn btn-success" style="background-color: #F9CD16; border-color: #F9CD16;">Ir a Lista</a>
+    </form>
+</div>
+
+    <h4>{{ msj }}</h4>
+
+{% endblock %}

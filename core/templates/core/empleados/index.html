@@ -92,12 +92,12 @@
                     aria-labelledby="dropdownMenuButton"
                   >
                     <li>
-                      <a class="dropdown-item" href="#"
+                      <a class="dropdown-item" href="{% url 'empleadosupdate' aux.id %}"
                         ><i class="fa fa-edit"></i> Modificar</a
                       >
                     </li>
                     <li>
-                      <a class="dropdown-item" onclick=""
+                      <a class="dropdown-item" href="{% url 'empleadosdelete' aux.id %}"
                         ><i class="fa fa-trash"></i> Eliminar</a
                       >
                     </li>
