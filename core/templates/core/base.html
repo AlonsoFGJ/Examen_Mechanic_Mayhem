@@ -101,19 +101,19 @@
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#base">
-                  <i class="fas fa-layer-group"></i>
+                  <i class="fas fa-sitemap"></i>
                   <p>Categorias</p>
                   <span class="caret"></span>
                 </a>
                 <div class="collapse" id="base">
                   <ul class="nav nav-collapse">
                     <li>
-                      <a href="components/avatars.html">
+                      <a href="{% url 'categoriacategorias' %}">
                         <span class="sub-item">Nuestras Categorias</span>
                       </a>
                     </li>
                     <li>
-                      <a href="components/buttons.html">
+                      <a href="{% url 'ultimos_trabajos' %}">
                         <span class="sub-item">Nuestros trabajos</span>
                       </a>
                     </li>
@@ -122,19 +122,19 @@
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarLayouts">
-                  <i class="fas fa-th-list"></i>
+                  <i class="fas fa-project-diagram"></i>
                   <p>Proyectos</p>
                   <span class="caret"></span>
                 </a>
                 <div class="collapse" id="sidebarLayouts">
                   <ul class="nav nav-collapse">
                     <li>
-                      <a href="sidebar-style-2.html">
+                      <a href="{% url 'subir_proyecto' %}">
                         <span class="sub-item">Agregar Proyectos</span>
                       </a>
                     </li>
                     <li>
-                      <a href="icon-menu.html">
+                      <a href="{% url 'aceptar_denegar' %}">
                         <span class="sub-item">Aceptar / Denegar</span>
                       </a>
                     </li>
@@ -143,7 +143,7 @@
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#tables">
-                  <i class="fas fa-table"></i>
+                  <i class="fas fa-wrench"></i>
                   <p>Nuestros Mecanicos</p>
                   <span class="caret"></span>
                 </a>
@@ -169,13 +169,13 @@
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="" href="#forms">
-                  <i class="fas fa-pen-square"></i>
+                  <i class="fas fa-tags"></i>
                   <p>Catalogo</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a data-bs-toggle="" href="#forms">
-                  <i class="fas fa-pen-square"></i>
+                  <i class="fas fa-cogs"></i>
                   <p>Administración</p>
                 </a>
               </li>
@@ -238,7 +238,7 @@
                 <li
                   class="nav-item topbar-icon dropdown hidden-caret d-flex d-lg-none"
                 >
-                  <a
+                  <a 
                     class="nav-link dropdown-toggle"
                     data-bs-toggle="dropdown"
                     href="#"
@@ -260,35 +260,55 @@
                     </form>
                   </ul>
                 </li>
+                {% if user.is_authenticated %}
                 <li class="nav-item topbar-user dropdown hidden-caret">
-                  <a
-                    class="dropdown-toggle profile-pic"
-                    data-bs-toggle="dropdown"
-                    href="#"
-                    aria-expanded="false"
-                  >
+                  <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
                     <div class="avatar-sm">
-                      <img
-                        src="{% static 'core/img/Pavel.png' %}"
-                        alt="..."
-                        class="avatar-img rounded-circle"
-                      />
+                      <img src="{% static 'core/img/Pavel.png' %}" alt="..." class="avatar-img rounded-circle"/>
                     </div>
                     <span class="profile-username">
-                      <span class="op-7">Nombre</span>
+                      <div class="profile_info_iner">
+                        <div class="profile_author_name">
+                          <p style="margin-bottom: 0;">Bienvenido:</p> 
+                          <h6 style="margin-top: 0;">{{ user.username | capfirst }}</h6> 
+                        </div>
+                      </div>
                     </span>
                   </a>
                   <ul class="dropdown-menu dropdown-user animated fadeIn">
                       </li>
                       <li>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Iniciar Sesión</a>
-                        <a class="dropdown-item" href="#">Crear Cuenta</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Cerrar Sesión</a>
+                        <form action="{% url 'logout' %}" method="POST">{% csrf_token %}<button type="submit" style="border-color: white; border-style: none; margin-left: 18px;">Cerrar Sesion</form>
                       </li>
                     </div>
                   </ul>
+                  {% else %}
+                  <li class="nav-item topbar-user dropdown hidden-caret">
+                    <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
+                      <div class="avatar-sm">
+                        <img src="{% static 'core/img/Default.png' %}" alt="..." class="avatar-img rounded-circle"/>
+                      </div>
+                      <span class="profile-username">
+                        <div class="profile_info_iner">
+                          <div class="profile_author_name">
+                            <p style="margin-bottom: 0;">Bienvenido:</p> 
+                            <h6 style="margin-top: 0;">Invitado</h6> 
+                          </div>
+                        </div>
+                      </span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user animated fadeIn">
+                        </li>
+                        <li>
+                          <div class="dropdown-divider"></div>
+                          <a class="dropdown-item" href="{% url 'login' %}">Iniciar Sesión</a>
+                          <a class="dropdown-item" href="{% url 'register' %}">Crear Cuenta</a>
+                          <div class="dropdown-divider"></div>
+                        </li>
+                      </div>
+                    </ul>
+                {% endif %}
                 </li>
               </ul>
             </div>
@@ -372,6 +392,7 @@
   </script>
   {% endfor %}
   {% endif %}
+  
     
   </body>
 </html>

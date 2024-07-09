@@ -128,6 +128,10 @@ STATIC_URL = 'static/'
 #Configuraciones para msj
 MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
 
+#CONFIGURACIONES LOGIN Y LOGOUT
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 

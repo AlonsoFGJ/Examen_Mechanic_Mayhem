@@ -57,3 +57,52 @@ def empleadosdelete(request, id):
     empleado.delete()
 
     return redirect(to="empleados")
+
+def categoriacategorias (request):
+    return render(request, 'core/categorias/nuestras_categorias.html')
+
+def aceptar_denegar (request):
+    proyectos = SubirProyecto.objects.all()
+    aux2 = {
+        'lista2': proyectos
+    }
+
+    return render(request, 'core/proyectos/aceptar_denegar.html', aux2)
+
+def ultimos_trabajos (request):
+    return render(request, 'core/categorias/nuestros_trabajos.html')
+
+def subir_proyecto(request):
+    aux2 = {
+        'form' : SubirProyectoForm()
+    }
+    
+    if request.method == 'POST':
+        formulario = SubirProyectoForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            messages.success(request, "Subiste un proyecto correctamente.")
+        else:
+            aux2['form'] = formulario
+            messages.error(request, "Error al subir el proyecto.")
+
+    return render(request, 'core/proyectos/subir_proyectos.html', aux2)
+
+def register (request): 
+    aux = {
+        'form' : CustomUserCreationForm()
+    }
+
+    if request.method == 'POST':
+        formulario = CustomUserCreationForm(data=request.POST)
+        if formulario.is_valid():
+            user = formulario.save()
+            group = Group.objects.get(name='Cliente')
+            user.groups.add(group)
+
+            messages.success(request, "Usuario creado correctamente")
+            return redirect(to="empleados")
+        else: 
+            aux['form'] = formulario
+
+    return render(request, 'core/registration/register.html', aux)
