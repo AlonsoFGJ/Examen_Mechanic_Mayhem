@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import *
 from .forms  import *
+from django.contrib import messages
 
 # Create your views here.
 def index(request):
@@ -25,10 +26,10 @@ def empleadosadd(request):
         formulario = EmpleadoForm(request.POST)
         if formulario.is_valid():
             formulario.save()
-            aux['msj'] = "Empleado/a agregado correctamente"
+            messages.success(request, "Mecánico/a creado/a correctamente")
         else:
             aux['form'] = formulario
-            aux['msj']  = "Error al agregar Empleado/a"
+            messages.error(request, "El Mecánico/a no se pudo crear!")
 
     return render(request, 'core/empleados/crud/add.html', aux)    
 
@@ -44,10 +45,10 @@ def empleadosupdate(request, id):
         if formulario.is_valid():
             formulario.save()
             aux['form'] = formulario
-            aux['msj'] = "Empleado/a modificado correctamente"
+            messages.success(request, "Mecanico/a  modificado/a  correctamente")
         else:
             aux['form'] = formulario
-            aux['msj']  = "Error al modificado Empleado/a"
+            messages.error(request, "Error al modificar Mecanico/a !")
 
     return render(request, 'core/empleados/crud/update.html', aux)   
 
