@@ -120,6 +120,7 @@
                   </ul>
                 </div>
               </li>
+              {% if perms.core.add_categorias %}
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#sidebarLayouts">
                   <i class="fas fa-project-diagram"></i>
@@ -128,19 +129,25 @@
                 </a>
                 <div class="collapse" id="sidebarLayouts">
                   <ul class="nav nav-collapse">
+                    {% if perms.core.change_productos %}
                     <li>
                       <a href="{% url 'subir_proyecto' %}">
                         <span class="sub-item">Agregar Proyectos</span>
                       </a>
                     </li>
+                    {% endif %}
+                    {% if user.is_staff  %} 
                     <li>
                       <a href="{% url 'aceptar_denegar' %}">
                         <span class="sub-item">Aceptar / Denegar</span>
                       </a>
                     </li>
+                    {% endif %}
                   </ul>
                 </div>
               </li>
+              {% endif %}
+              {% if perms.core.view_empleado %}
               <li class="nav-item">
                 <a data-bs-toggle="collapse" href="#tables">
                   <i class="fas fa-wrench"></i>
@@ -154,31 +161,40 @@
                         <span class="sub-item">Lista de Mecanicos</span>
                       </a>
                     </li>
+                    {% if perms.core.add_categorias %}
                     <li>
                       <a href="tables/datatables.html">
                         <span class="sub-item">Lista de Mecanicos API</span>
                       </a>
                     </li>
+                    {% endif %}
+                    {% if perms.core.add_empleado  %}
                     <li>
                       <a href="{% url 'empleadosadd' %}">
                         <span class="sub-item">Agregar</span>
                       </a>
                     </li>
+                    {% endif %}
                   </ul>
                 </div>
               </li>
+              {% endif %}
+              {% if perms.core.view_empleado %} 
               <li class="nav-item">
                 <a data-bs-toggle="" href="#forms">
                   <i class="fas fa-tags"></i>
                   <p>Catalogo</p>
+              {% endif %}
                 </a>
               </li>
+              {% if user.is_staff  %}
               <li class="nav-item">
-                <a data-bs-toggle="" href="#forms">
+                <a data-bs-toggle="" href="http://127.0.0.1:8000/admin">
                   <i class="fas fa-cogs"></i>
                   <p>Administración</p>
                 </a>
               </li>
+              {% endif %}
             </ul>
           </div>
         </div>

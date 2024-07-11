@@ -2,11 +2,31 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms  import *
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
+from django.contrib.auth.models import Group 
+
 
 # Create your views here.
+def user_in_group(user, group_name):
+    return user.groups.filter(name=group_name).exists()
+
+def group_required(group_name):
+    def decorator(view_func):
+        @login_required
+        def _wrapped_view(request, *args, **kwargs):
+            if user_in_group(request.user, group_name):
+                return view_func(request,*args, **kwargs)
+            else:
+                messages.error(request, 'No tienes permisos para acceder a la página')
+                return redirect(to='index')
+        return _wrapped_view
+    return decorator
+
 def index(request):
     return render(request, 'core/index.html')
 
+@group_required('Cliente')
+@permission_required('core.view_empleado')
 def empleados(request):
     empleados = Empleado.objects.all()
 
@@ -16,6 +36,7 @@ def empleados(request):
  
     return render(request, 'core/empleados/index.html', aux)
 
+@permission_required('core.add_empleado')
 def empleadosadd(request):
 
     aux = {
@@ -33,6 +54,7 @@ def empleadosadd(request):
 
     return render(request, 'core/empleados/crud/add.html', aux)    
 
+@permission_required('core.change_empleado')
 def empleadosupdate(request, id):
     empleado = Empleado.objects.get(id=id)
 
@@ -52,6 +74,7 @@ def empleadosupdate(request, id):
 
     return render(request, 'core/empleados/crud/update.html', aux)   
 
+@permission_required('core.delete_empleado')
 def empleadosdelete(request, id):
     empleado = Empleado.objects.get(id=id)
     empleado.delete()
@@ -61,6 +84,7 @@ def empleadosdelete(request, id):
 def categoriacategorias (request):
     return render(request, 'core/categorias/nuestras_categorias.html')
 
+@group_required('Supervisor' or 'Gerente') 
 def aceptar_denegar (request):
     proyectos = SubirProyecto.objects.all()
     aux2 = {
@@ -72,6 +96,7 @@ def aceptar_denegar (request):
 def ultimos_trabajos (request):
     return render(request, 'core/categorias/nuestros_trabajos.html')
 
+@group_required('Mecanico') 
 def subir_proyecto(request):
     aux2 = {
         'form' : SubirProyectoForm()
@@ -89,6 +114,7 @@ def subir_proyecto(request):
     return render(request, 'core/proyectos/subir_proyectos.html', aux2)
 
 def register (request): 
+    
     aux = {
         'form' : CustomUserCreationForm()
     }
@@ -105,4 +131,4 @@ def register (request):
         else: 
             aux['form'] = formulario
 
-    return render(request, 'core/registration/register.html', aux)
+    return render(request, 'registration/register.html', aux)
