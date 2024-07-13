@@ -19,6 +19,8 @@ urlpatterns = [
     path('proyectos/subir_proyecto/', subir_proyecto, name="subir_proyecto"),
     path('proyectos/aceptar_denegar/', aceptar_denegar, name="aceptar_denegar"),
     path('account_locked/', account_locked, name="account_locked"),
+    path('productos/', productos, name="productos"),
+
     # REGISTER
     path('register/', register, name="register"),
 

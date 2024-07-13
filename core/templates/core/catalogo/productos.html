@@ -1,0 +1,95 @@
+{% extends 'core/base.html' %} 
+{% load static %} 
+{% load crispy_forms_tags %}
+{% block principal %}
+
+<style>
+  /* Estilos para sección de valores de monedas */
+  #valoresMonedas {
+    display: flex;
+    justify-content: center; /* Alinea los elementos en el centro horizontalmente */
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  #valoresMonedas h2 {
+    font-size: 24px;
+    color: #333;
+    margin: 0;
+  }
+
+  #valoresMonedas h4 {
+    margin: 0;
+  }
+
+  #valoresMonedas .valor {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1a1a1a;
+  }
+
+  #valoresMonedas .icono-moneda {
+    font-size: 36px;
+    color: #1a1a1a;
+  }
+
+  /* Ajustes específicos para los elementos de las monedas */
+  #euroTemplate, #bitcoinTemplate {
+    flex: 1; /* Para que ocupen el mismo espacio */
+    max-width: 300px; /* Ajusta el ancho máximo según necesites */
+    margin: 0 10px; /* Espacio entre los elementos */
+    margin-top: 10px; 
+  }
+
+  #dolarTemplate {
+    flex: 1; /* Para que ocupen el mismo espacio */
+    max-width: 300px; /* Ajusta el ancho máximo según necesites */
+    margin: 0 10px; /* Espacio entre los elementos */
+    margin-top: 20px;  /*Esto es porque el dolar estaba por encima de los demas y me da cosa*/
+  }
+
+  
+  #dolarTemplate, #euroTemplate, #bitcoinTemplate article {
+    text-align: center; /* Alineación del contenido */
+  }
+</style>
+
+<section id="productos">
+<div class="container mt-3">
+  <h1 style="text-align: center; margin-top: 75px;">Nuestros Productos</h1>
+  <h5 style="text-align: center; margin-bottom: 20px;">
+    Nuestra página trabaja con monedas extranjeras, por lo que tenemos el cambio de CLP a estas mismas.
+  </h5> 
+  
+  <!-- Sección para mostrar los valores de Dólar, Euro y Bitcoin -->
+  <div id="valoresMonedas">
+    <div id="dolarTemplate">
+      <article>
+        <h2><span class="icono-dolar">$</span> DOLAR</h2>
+        <h5>Fecha: <span class="fecha"></span></h5>
+        <h5>Valor en CLP: <span class="valor" id="valorDolar"></span></h5>
+      </article>
+    </div>
+  
+    <div id="euroTemplate">
+      <article>
+        <h2><span class="icono-moneda">€</span> EURO</h2>
+        <h5>Fecha: <span class="fecha"></span></h5>
+        <h5>Valor en CLP: <span class="valor" id="valorEuro"></span></h5>
+      </article>
+    </div>
+  
+    <div id="bitcoinTemplate">
+      <article>
+        <h2><span class="icono-moneda">₿</span> BITCOIN</h2>
+        <h5>Fecha: <span class="fecha"></span></h5>
+        <h5>Valor en CLP: <span class="valor" id="valorBitcoin"></span></h5>
+      </article>
+    </div>
+  </div>
+
+  <h1>Aqui iran productos</h1>
+  
+</section>
+
+{% endblock %}

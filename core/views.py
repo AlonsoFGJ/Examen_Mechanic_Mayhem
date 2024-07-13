@@ -196,3 +196,7 @@ def empleadodetalle(request, id):
 
 def account_locked (request):
     return render(request, 'core/account_locked.html')
+
+@permission_required('core.view_empleado')
+def productos (request):
+    return render(request, 'core/catalogo/productos.html')
