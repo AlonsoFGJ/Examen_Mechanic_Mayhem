@@ -18,7 +18,7 @@ urlpatterns = [
     path('categoria/ultimos_trabajos/', ultimos_trabajos, name="ultimos_trabajos"),
     path('proyectos/subir_proyecto/', subir_proyecto, name="subir_proyecto"),
     path('proyectos/aceptar_denegar/', aceptar_denegar, name="aceptar_denegar"),
-
+    path('account_locked/', account_locked, name="account_locked"),
     # REGISTER
     path('register/', register, name="register"),
 

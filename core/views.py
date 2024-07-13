@@ -11,6 +11,9 @@ from rest_framework.renderers import JSONRenderer  # type: ignore
 from .serializers import *
 import requests # type: ignore
 
+#PAGINATOR
+from django.core.paginator import Paginator
+
 # Create your views here.
 def user_in_group(user, group_name):
     return user.groups.filter(name=group_name).exists()
@@ -34,10 +37,16 @@ def index(request):
 def empleados(request):
     empleados = Empleado.objects.all()
 
+    #Paginator
+    paginator = Paginator(empleados,4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     aux = {
-        'lista' : empleados
+        'lista' : empleados,
+        'page_obj' : page_obj
     }
- 
+
     return render(request, 'core/empleados/index.html', aux)
 
 @group_required('Gerente') 
@@ -160,9 +169,13 @@ def empleadosapi (request):
     response = requests.get('http://127.0.0.1:8000/api/empleados/')
     empleados = response.json()
     
+    paginator = Paginator(empleados,4)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     aux = {
         'lista' : empleados,
-       
+        'page_obj' : page_obj
     }
 
     return render(request, 'core/empleados/crudapi/index.html', aux)
@@ -180,3 +193,6 @@ def empleadodetalle(request, id):
     }
 
     return render(request, 'core/empleados/crudapi/detalle.html', aux)
+
+def account_locked (request):
+    return render(request, 'core/account_locked.html')

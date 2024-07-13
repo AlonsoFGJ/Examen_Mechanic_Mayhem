@@ -2,14 +2,17 @@ from django import forms
 from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django_recaptcha.fields import ReCaptchaField  # type: ignore
 
 class EmpleadoForm(forms.ModelForm):  
+    captcha = ReCaptchaField()
 
     class Meta:
         model = Empleado
         fields = '__all__'
         
 class SubirProyectoForm(forms.ModelForm):  
+    captcha = ReCaptchaField()
 
     class Meta:
         model = SubirProyecto
@@ -22,6 +25,7 @@ class GeneroForm(forms.ModelForm):
         fields = '__all__'
 
 class CustomUserCreationForm(UserCreationForm):
+    captcha = ReCaptchaField()
 
     class Meta:
         model = User

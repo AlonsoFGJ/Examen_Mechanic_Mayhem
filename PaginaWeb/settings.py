@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+from datetime import timedelta
 import os
 from pathlib import Path
 
@@ -34,6 +35,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'admin_interface',
     'colorfield',
+    'admin_confirm',
+    'multi_captcha_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,7 +47,32 @@ INSTALLED_APPS = [
     'crispy_forms',
     'crispy_bootstrap4',
     'rest_framework',
+    'axes',
+    'captcha',
+    'django_recaptcha',
 ]
+
+# Config Multi-Captcha
+MULTI_CAPTCHA_ADMIN = {
+    'engine': 'simple-captcha',
+}
+
+RECAPTCHA_PUBLIC_KEY = '6LeiLfcpAAAAAJVyoycei3bDHfP10j3V3qSzTpM7'
+RECAPTCHA_PRIVATE_KEY = '6LeiLfcpAAAAAFk-SR4DVjYtZ4C7LkrSX59z5ZVy'
+
+# Configuración AXES
+AUTHENTICATION_BACKENDS = [
+    # AxesStandaloneBackend should be the first backend in the AUTHENTICATION_BACKENDS list.
+    'axes.backends.AxesStandaloneBackend',
+
+    # Django ModelBackend is the default authentication backend.
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AXES_FAILURE_LIMIT = 3 #Intentos fallidos por usuario
+AXES_COOLOFF_TIME = timedelta(minutes=1) #Cantidad de tiempo antes de intentar Login
+AXES_LOCKOUT_URL = '/account_locked/'
+AXES_RESET_ON_SUCCES = True #Resetea contador de fallos cuando hay Login exitoso
 
 X_FRAME_OPTIONS = "SAMEORIGIN"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -57,6 +85,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'axes.middleware.AxesMiddleware',
 ]
 
 ROOT_URLCONF = 'PaginaWeb.urls'

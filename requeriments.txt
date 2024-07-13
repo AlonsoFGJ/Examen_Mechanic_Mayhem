@@ -3,6 +3,12 @@ django-admin-interface
 django-crispy-forms
 crispy-bootstrap4
 djangorestframework
+requests
+django-axes
+django-admin-confirm
+django-simple-captcha
+django-recaptcha
+django-multi-captcha-admin
 
 # pip install -r requeriments.txt
 
