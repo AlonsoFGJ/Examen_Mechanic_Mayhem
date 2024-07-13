@@ -30,6 +30,7 @@ class Empleado(models.Model):
     genero = models.ForeignKey(Genero, on_delete=models.CASCADE)
     tipo = models.ForeignKey(TipoEmpleado, on_delete=models.CASCADE)
     fecha_ingreso = models.DateTimeField(auto_now_add=True)
+    imagen = models.ImageField(upload_to="empleados",null=True,blank=True)
 
     def __str__(self):
         return "{} {}".format(self.nombre, self.apellido)

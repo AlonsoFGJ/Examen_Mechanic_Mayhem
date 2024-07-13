@@ -161,13 +161,11 @@
                         <span class="sub-item">Lista de Mecanicos</span>
                       </a>
                     </li>
-                    {% if perms.core.add_categorias %}
                     <li>
-                      <a href="tables/datatables.html">
+                      <a href="{% url 'empleadosapi' %}">
                         <span class="sub-item">Lista de Mecanicos API</span>
                       </a>
                     </li>
-                    {% endif %}
                     {% if perms.core.add_empleado  %}
                     <li>
                       <a href="{% url 'empleadosadd' %}">

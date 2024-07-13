@@ -1,0 +1,104 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block principal %}
+
+<style>
+  .employee-card {
+    display: flex;
+    margin: 15px 0; /* Ajuste de margen vertical */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  .main-title {
+    text-align: center;
+    background-color: #021730;
+    padding: 15px;
+    color: aliceblue;
+    border-radius: 30px;
+    margin-top: 75px;
+    margin-bottom: 20px; /* Espacio inferior para separar del contenido */
+  }
+
+  .employee-info {
+    flex: 1; /* Para ocupar el espacio restante */
+    text-align: left; /* Alineación del texto a la izquierda */
+  }
+
+  .info-row {
+    margin-top: 13px;
+    margin-bottom: 10px; /* Espacio entre las filas de información */
+    line-height: 1.6; /* Altura de línea para mejorar la legibilidad */
+  }
+
+  .info-label {
+    font-weight: bold; /* Texto de etiqueta en negrita */
+    display: inline-block;
+    width: 80px; /* Ancho fijo para las etiquetas */
+    margin-right: -5px; /* Margen derecho entre etiqueta y valor */
+  }
+
+  .byder_thumb {
+    max-width: 100px;
+    height: auto;
+    border-radius: 50%; /* Hace la imagen circular */
+    display: block; /* Hace que la imagen sea un bloque para centrarla */
+    margin-right: 20px; /* Margen derecho para separar de la información */
+  }
+
+  /* Estilo para alinear la imagen y la información */
+  .employee-container {
+    display: flex;
+    align-items: center;
+  }
+</style>
+
+<div class="white_card mb_30" style="margin: 0 15px">
+  <div class="white_card_header">
+    <div class="box_header m-0">
+      <div class="main-title">
+        <h2 class="m-0">Detalle del Empleado</h2>
+      </div>
+    </div>
+  </div>
+  <div class="white_card_body">
+    <div class="employee-card">
+      <div class="employee-container">
+        <div class="employee-info">
+          <div class="info-row">
+            <span class="info-label">Rut:</span>
+            {{ empleado.rut }}
+          </div>
+          <div class="info-row">
+            <span class="info-label">Cargo:</span>
+            {{ empleado.tipo.descripcion }}
+          </div>
+          <div class="info-row">
+            <span class="info-label">Nombre:</span>
+            {{ empleado.nombre }} {{ empleado.apellido }}
+          </div>
+          <div class="info-row">
+            <span class="info-label">Habilitado:</span>
+            {% if empleado.habilitado %} Si está disponible para trabajar {% else %} - No está disponible para trabajar {% endif %}
+          </div>
+          <div class="info-row">
+            <span class="info-label">Genero:</span>
+            {{ empleado.genero.descripcion }}
+          </div>
+          <div class="info-row">
+            <span class="info-label">Edad:</span>
+            {{ empleado.edad }}
+          </div>
+          <div class="info-row">
+            <span class="info-label">Teléfono:</span>
+            {{ empleado.telefono }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -5,6 +5,11 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth.models import Group 
 
+#IMPORT API
+from rest_framework import viewsets  # type: ignore
+from rest_framework.renderers import JSONRenderer  # type: ignore
+from .serializers import *
+import requests # type: ignore
 
 # Create your views here.
 def user_in_group(user, group_name):
@@ -25,7 +30,6 @@ def group_required(group_name):
 def index(request):
     return render(request, 'core/index.html')
 
-@group_required('Cliente')
 @permission_required('core.view_empleado')
 def empleados(request):
     empleados = Empleado.objects.all()
@@ -36,6 +40,7 @@ def empleados(request):
  
     return render(request, 'core/empleados/index.html', aux)
 
+@group_required('Gerente') 
 @permission_required('core.add_empleado')
 def empleadosadd(request):
 
@@ -44,7 +49,7 @@ def empleadosadd(request):
     }
 
     if request.method == 'POST':
-        formulario = EmpleadoForm(request.POST)
+        formulario = EmpleadoForm(request.POST, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
             messages.success(request, "Mecánico/a creado/a correctamente")
@@ -54,6 +59,7 @@ def empleadosadd(request):
 
     return render(request, 'core/empleados/crud/add.html', aux)    
 
+@group_required('Gerente') 
 @permission_required('core.change_empleado')
 def empleadosupdate(request, id):
     empleado = Empleado.objects.get(id=id)
@@ -63,7 +69,7 @@ def empleadosupdate(request, id):
     }
 
     if request.method == 'POST':
-        formulario = EmpleadoForm(data=request.POST, instance=empleado)
+        formulario = EmpleadoForm(data=request.POST, instance=empleado, files=request.FILES)
         if formulario.is_valid():
             formulario.save()
             aux['form'] = formulario
@@ -74,6 +80,7 @@ def empleadosupdate(request, id):
 
     return render(request, 'core/empleados/crud/update.html', aux)   
 
+@group_required('Gerente') 
 @permission_required('core.delete_empleado')
 def empleadosdelete(request, id):
     empleado = Empleado.objects.get(id=id)
@@ -132,3 +139,44 @@ def register (request):
             aux['form'] = formulario
 
     return render(request, 'registration/register.html', aux)
+
+# UTILIZAMOS LAS VIEWSET PARA MANEJAR LAS PETICIONES HTTP (GET,POST,PUT,DELETE)
+class TipoEmpleadoViewset(viewsets.ModelViewSet):
+    queryset = TipoEmpleado.objects.all().order_by('id')
+    serializer_class = TipoEmpleadoSerializers
+    renderer_classes = [JSONRenderer]
+
+class EmpleadoViewset(viewsets.ModelViewSet):
+    queryset = Empleado.objects.all().order_by('id')
+    serializer_class = EmpleadoSerializers
+    renderer_classes = [JSONRenderer]
+
+class GeneroViewset(viewsets.ModelViewSet):
+    queryset = Genero.objects.all().order_by('id')
+    serializer_class = GeneroSerializers
+    renderer_classes = [JSONRenderer]
+
+def empleadosapi (request): 
+    response = requests.get('http://127.0.0.1:8000/api/empleados/')
+    empleados = response.json()
+    
+    aux = {
+        'lista' : empleados,
+       
+    }
+
+    return render(request, 'core/empleados/crudapi/index.html', aux)
+    
+def empleadodetalle(request, id):
+    response = requests.get(f'http://127.0.0.1:8000/api/empleados/{id}/')
+    empleado = response.json()
+
+    # Construye la URL absoluta de la imagen si está presente
+    if empleado.get('imagen'):
+        empleado['imagen'] = f'http://127.0.0.1:8000/{empleado["imagen"]}'
+
+    aux = {
+        'empleado': empleado
+    }
+
+    return render(request, 'core/empleados/crudapi/detalle.html', aux)

@@ -1,5 +1,12 @@
-from django.urls import path
+from django.urls import path, include
 from .views import *
+from rest_framework import routers # type: ignore
+
+# Configuración para el API
+router = routers.DefaultRouter()
+router.register('empleados', EmpleadoViewset)
+router.register('generos', GeneroViewset)
+router.register('tipoempleados', TipoEmpleadoViewset)
 
 urlpatterns = [
     path('', index, name="index"),
@@ -14,4 +21,9 @@ urlpatterns = [
 
     # REGISTER
     path('register/', register, name="register"),
+
+    # API URLs
+    path('api/', include(router.urls)),  # URLs generadas por el router de DRF
+    path('empleadosapi/', empleadosapi, name="empleadosapi"),  # Ejemplo de una vista de API específica
+    path('empleadodetalle/<id>/', empleadodetalle, name="empleadodetalle"),  # Vista de detalle de empleado
 ]

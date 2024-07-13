@@ -2,6 +2,7 @@ django
 django-admin-interface
 django-crispy-forms
 crispy-bootstrap4
+djangorestframework
 
 # pip install -r requeriments.txt
 

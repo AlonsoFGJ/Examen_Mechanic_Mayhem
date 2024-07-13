@@ -56,11 +56,11 @@
           {% for aux in lista %}
           <tr style="border: hidden">
             <td style="vertical-align: middle">
-              <img
-                class="byder_thumb"
-                src="{% static 'core/img/Default.png' %}"
-                alt=""
-              />
+              {% if aux.imagen %}
+                <img class="byder_thumb" src="{{ aux.imagen.url }}" alt="">
+              {% else %}
+                <img class="byder_thumb" src="{% static 'core/img/Default.png' %}" alt="">
+              {% endif %}
             </td>
             <td class="byder_info" style="margin-top: 15px">
               <div class="payment_gatway">
@@ -96,11 +96,13 @@
                         ><i class="fa fa-edit"></i> Modificar</a
                       >
                     </li>
+                    {% if perms.core.add_empleado %}
                     <li>
                       <a class="dropdown-item" onclick="confirmarDelete({{ aux.id }})"
                         ><i class="fa fa-trash"></i> Eliminar</a
                       >
                     </li>
+                    {% endif %}
                   </ul>
                 </div>
               </div>
