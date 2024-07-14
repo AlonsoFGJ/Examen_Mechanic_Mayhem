@@ -28,6 +28,7 @@
                 <form method="POST">
                     {% csrf_token %}
                     {{ form | crispy }}
+                    <a href="{% url 'password_reset' %}" style="margin-left: 13px;">Restablecer Contraseña</a>
                     <div style="text-align: center; margin-bottom: 50px;">
                         <input type="submit" class="btn btn-primary" value="Ingresar" style="margin-top: 15px;text-align: center;">
                     </div>

@@ -199,4 +199,11 @@ def account_locked (request):
 
 @permission_required('core.view_empleado')
 def productos (request):
-    return render(request, 'core/catalogo/productos.html')
+
+    productos = Productos.objects.all()
+
+    aux = {
+        'lista' : productos
+    }
+
+    return render(request, 'core/catalogo/productos.html', aux)

@@ -18,13 +18,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('core.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('captcha/', include('captcha.urls')),  # URLs de Captcha,
-
+    path('reset_password/', auth_views.PasswordResetView.as_view(), name='password_reset'),  # Reset de contraseña
+    path('reset_password_send/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),  # Confirmación de envío de reset
+    path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),  # Confirmación de reset
+    path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),  # Completado de reset
 ]
 
 # Configuración para servir archivos estáticos en desarrollo

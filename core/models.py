@@ -50,7 +50,7 @@ class Productos(models.Model):
     titulo = models.CharField(max_length=50)
     descripcion = models.CharField(max_length=3000)
     precio = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
-    
+    imagen = models.ImageField(upload_to="empleados",null=True,blank=True)
     
     def __str__(self):
         return self.titulo
