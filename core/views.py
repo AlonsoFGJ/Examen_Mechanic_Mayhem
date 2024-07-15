@@ -207,3 +207,4 @@ def productos (request):
     }
 
     return render(request, 'core/catalogo/productos.html', aux)
+

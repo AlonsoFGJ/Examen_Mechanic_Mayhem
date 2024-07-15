@@ -142,22 +142,18 @@
     {% for producto in lista %}
     <div class="col-md-3 mb-4">
       <div class="card h-100">
-        <img
-          class="card-img-top"
-          src="{{ producto.imagen.url }}"
-          alt="Card image"
-        />
+        <img class="card-img-top" src="{{ producto.imagen.url }}" alt="Card image" />
         <div class="card-body">
           <h4 class="card-title">{{ producto.titulo }}</h4>
           <p class="card-text" style="text-align: center;">{{ producto.descripcion }}</p>
           <h4 style="text-align: center;">${{ producto.precio }} USD</h4>
-          <button>Agregar al Carrito</button>
+          <button onclick="agregarAlCarrito('{{ producto.titulo }}', {{ producto.precio }})">Agregar al Carrito</button>
         </div>
       </div>
     </div>
     {% endfor %}
   </div>
-  
 </section>
+
 
 {% endblock %}
