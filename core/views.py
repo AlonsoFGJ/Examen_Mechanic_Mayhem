@@ -208,3 +208,6 @@ def productos (request):
 
     return render(request, 'core/catalogo/productos.html', aux)
 
+def historial (request):
+    return render(request, 'core/catalogo/historial.html')
+

@@ -9,6 +9,7 @@ django-admin-confirm
 django-simple-captcha
 django-recaptcha
 django-multi-captcha-admin
+jinja2 pdfkit
 
 # pip install -r requeriments.txt
 

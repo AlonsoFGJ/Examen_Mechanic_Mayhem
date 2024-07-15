@@ -20,6 +20,7 @@ urlpatterns = [
     path('proyectos/aceptar_denegar/', aceptar_denegar, name="aceptar_denegar"),
     path('account_locked/', account_locked, name="account_locked"),
     path('productos/', productos, name="productos"),
+    path('historial/', historial, name="historial"),
 
     # REGISTER
     path('register/', register, name="register"),

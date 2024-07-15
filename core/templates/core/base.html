@@ -297,8 +297,9 @@
                                 </form>
                             </ul>
                         </li>
+                        {% if user.is_authenticated %}
                         <li class="nav-item">
-                          <a href="#" class="historial-compras">Historial de Compras</a>
+                          <a href="{% url 'historial' %}" class="historial-compras">Historial de Compras</a>
                         </li>
                         <li class="nav-item">
                           <a class="carrito-icon" onclick="mostrarCarrito()">
@@ -317,6 +318,7 @@
                           <button onclick="limpiarCarrito()" style="display: none; margin-top: 5px; width: 100%; padding: 5px; border-radius: 5px; background-color: #878b8f; color: white; border: none;">Limpiar Carrito</button><!-- Botón para limpiar el carrito -->
                           <div style="justify-content: center; display: none; margin-top: 5px;" class="text-center" id="paypal-button"></div> <!-- Botón de PayPal -->
                       </div>
+                      {% endif %}
                         {% if user.is_authenticated %}
                         <li class="nav-item topbar-user dropdown hidden-caret">
                             <a class="dropdown-toggle profile-pic" data-bs-toggle="dropdown" href="#" aria-expanded="false">
@@ -403,6 +405,7 @@
 <script src="{% static 'core/js/core/bootstrap.min.js' %}"></script>
 <script src="{% static 'core/js/funcionalidades.js' %}"></script>
 <script src="{% static 'core/js/api.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA7UzStafBo84BuodsOsMsR1HI_F28__Uo&callback=iniciarMap"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
@@ -438,6 +441,7 @@
   }
 </script>
 
+<!-- Script para manipular el carrito y generar PDF -->
 <script>
   let carritoVisible = false; // Variable para controlar el estado del carrito visible
 
@@ -565,13 +569,13 @@
     }
   }
 
- // Función para limpiar el carrito
-function limpiarCarrito() {
-  // Forzar una actualización visual de la página
-  setTimeout(function() {
-    window.location.reload();
-  }, 100); // Recargar la página después de 100 milisegundos (ajusta según sea necesario)
-}
+  // Función para limpiar el carrito
+  function limpiarCarrito() {
+    // Forzar una actualización visual de la página
+    setTimeout(function() {
+      window.location.reload();
+    }, 100); // Recargar la página después de 100 milisegundos (ajusta según sea necesario)
+  }
 
   // Función para obtener el nombre del producto dado su id
   function obtenerNombreProducto(idProducto) {
@@ -587,61 +591,96 @@ function limpiarCarrito() {
 
     return 'Producto Desconocido'; // Manejo de error si el producto no se encuentra (opcional)
   }
+
 </script>
 
+<!-- Script de PayPal -->
 <script src="https://www.paypalobjects.com/api/checkout.js"></script>
 <script>
+  // Función para mostrar el mensaje de agradecimiento
+  function mostrarMensajeAgradecimiento() {
+    Swal.fire({
+      icon: "success",
+      title: "¡Gracias por tu compra!",
+      text: "El pago ha sido procesado exitosamente.",
+      showConfirmButton: true,
+      confirmButtonText: "Ver Voucher",
+    }).then(function () {
+      mostrarRecibo().then(function () {
+        // Redirigir al usuario a historial.html después de ver el voucher
+        setTimeout(function () {
+          window.location.href = "{% url 'historial' %}";
+        }, 2500);
+      });
+    });
+  }
+
+  // Función para generar el contenido del recibo y mostrarlo en una ventana emergente
+  function mostrarRecibo() {
+    // Obtener todos los elementos de productos en el carrito
+    const productos = document.querySelectorAll('.carrito-menu-item');
+    
+    let texto = 'Mechanic Mayhem agradece tu compra!\n\n'; // Título principal
+    texto += 'Productos:\n';
+    
+    // Iterar sobre cada producto y obtener nombre y precio
+    productos.forEach((producto) => {
+      const nombre = producto.querySelector('span:nth-child(1)').textContent;
+      const precio = producto.querySelector('span:nth-child(2)').textContent;
+
+      texto += `${nombre}: ${precio}\n`;
+    });
+
+    // Obtener el total del carrito
+    const totalCarrito = document.getElementById('totalCarrito').textContent;
+    texto += `\nTotal: ${totalCarrito}\n`;
+
+    // Mostrar el recibo en una ventana emergente usando SweetAlert
+    return Swal.fire({
+      title: 'Voucher de Compra',
+      text: texto,
+      icon: 'info',
+      confirmButtonText: 'Aceptar'
+    });
+  }
+
   paypal.Button.render({
     env: "sandbox",
     client: {
-        sandbox: "AQYXVx3SSCZEt_BeNq6YFDkKt79qbo9KLlxpa6sjJ1XqU-c4-IVixG0svaWaM_cUVnohe_Fx-l3YU4mV",
-        production: "demo_production_client_id",
+      sandbox: "AQYXVx3SSCZEt_BeNq6YFDkKt79qbo9KLlxpa6sjJ1XqU-c4-IVixG0svaWaM_cUVnohe_Fx-l3YU4mV",
+      production: "demo_production_client_id",
     },
     locale: "en_US",
     style: {
-        size: "medium",
-        color: "blue",
-        shape: "pill",
+      size: "medium",
+      color: "blue",
+      shape: "pill",
     },
     commit: true,
     payment: function (data, actions) {
-        // Obtener el total actual del carrito
-        const totalCarrito = parseFloat(document.getElementById('totalCarrito').textContent.replace(/[^\d.-]/g, ''));
-        
-        // Crear el objeto de pago basado en el total del carrito
-        return actions.payment.create({
-            transactions: [
-                {
-                    amount: {
-                        total: totalCarrito.toFixed(2),
-                        currency: "USD",
-                    },
-                },
-            ],
-        });
+      // Obtener el total actual del carrito
+      const totalCarrito = parseFloat(document.getElementById('totalCarrito').textContent.replace(/[^\d.-]/g, ''));
+      
+      // Crear el objeto de pago basado en el total del carrito
+      return actions.payment.create({
+        transactions: [
+          {
+            amount: {
+              total: totalCarrito.toFixed(2),
+              currency: "USD",
+            },
+          },
+        ],
+      });
     },
     onAuthorize: function (data, actions) {
-        return actions.payment.execute().then(function () {
-            // Mostrar SweetAlert después de que el pago se haya ejecutado correctamente
-            Swal.fire({
-                icon: "success",
-                title: "¡Gracias por tu compra!",
-                text: "El pago ha sido procesado exitosamente.",
-                showConfirmButton: false,
-                timer: 2000, // Ocultar automáticamente después de 2 segundos
-            }).then(function() {
-                // Restablecer el carrito después de mostrar el mensaje
-                limpiarCarrito();
-
-                // Opcional: Puedes redirigir al usuario a otra página después de unos segundos
-                setTimeout(function () {
-                    window.location.href = "#";
-                }, 2500); // Redirigir después de 2.5 segundos
-            });
-        });
+      return actions.payment.execute().then(function () {
+        mostrarMensajeAgradecimiento();
+      });
     },
-}, "#paypal-button");
+  }, "#paypal-button");
 </script>
+
 
 {% if messages %}
 {% for aux in messages %}
@@ -667,3 +706,5 @@ function limpiarCarrito() {
 
 </body>
 </html>
+
+

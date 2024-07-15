@@ -3,6 +3,38 @@
 
 {% block principal %}
 
+<h1 style="margin-top: 75px;">Historial de Compras</h1>
 
 
+
+<!-- Botón para descargar en PDF -->
+<a href="#" style="margin-top: 25px; margin-bottom: 200px;"id="descargar-pdf" class="btn btn-primary">Descargar PDF</a>
+
+<!-- Botón para imprimir -->
+<a href="#" style="margin-top: 25px; margin-bottom: 200px;" class="btn btn-secondary" onclick="window.print()">Imprimir</a>
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+    {{ block.super }}
+    <script src="{% static 'js/jspdf.min.js' %}"></script>
+    <script>
+        document.getElementById('descargar-pdf').addEventListener('click', function() {
+            // Crear instancia de jsPDF
+            var doc = new jsPDF();
+            
+            // Agregar contenido
+            doc.text(20, 20, 'Historial de Compras');
+            
+            // Obtener contenido de la página (ejemplo, solo título)
+            var titulo = document.querySelector('h1').textContent;
+            doc.text(20, 30, titulo);
+            
+            // Generar archivo PDF
+            doc.save('historial_compras.pdf');
+        });
+    </script>
 {% endblock %}
